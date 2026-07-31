@@ -1,0 +1,1 @@
+raise NotImplementedError("Write your own client you dingus. This application is free and has no client pre-added.")
