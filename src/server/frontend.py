@@ -10,13 +10,13 @@ from jokeapi_interface import (
 
 TOKEN_REALFILE = "secrets/tokens.py"
 def load_tokens_from_realfile():
-    def load_tokens_From_file_using_import():
+    def load_tokens_from_file_using_import():
         import importlib.util
         spec = importlib.util.spec_from_file_location("tokens", TOKEN_REALFILE)
         tokens_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(tokens_module)
         return tokens_module.tokens
-    
+    tokens = load_tokens_from_file_using_import()
     return tokens
 def put_tokens_into_tempfile():
     with open("secrets/tokens.txt", "w") as file:
@@ -28,7 +28,9 @@ TOKEN_FILE = "secrets/tokens.txt"
 
 
 def load_tokens():
-
+    """
+Loads tokens.
+"""
     tokens = {}
 
     try:
@@ -62,6 +64,9 @@ def load_tokens():
 
 
 def check_token(token):
+    """
+    Checks a token against the loaded tokens and returns a tuple of (is_valid, error_code, error_message).
+"""
 
     tokens = load_tokens()
 
@@ -136,7 +141,9 @@ joke_api = JokeAPI([
 
 
 class JokeRequestHandler(BaseHTTPRequestHandler):
-
+    """
+The base handler for the requests
+"""
 
     def send_json(self, status, data):
 

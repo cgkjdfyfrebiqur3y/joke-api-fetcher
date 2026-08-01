@@ -32,9 +32,15 @@ class staticvalues:
             return f"https://v2.jokeapi.dev/joke/{categories}?safe-mode"
         return f"https://v2.jokeapi.dev/joke/{categories}?safe-mode&type={type_str}"
 class JokeAPI:
+    """
+Class that represents the interface for the low dependency
+"""
     def __init__(self,categories=["Programming", "Misc", "Christmas","Spooky","Pun"]):
         self.categories = categories
     def getjoke(self,type:bool = None,):
+        """
+Gets a joke from JokeAPI
+"""
         url = staticmethod.URL_CUSTOM(self.categories,type)
         try:
             response = requests.get(url, timeout=5)
