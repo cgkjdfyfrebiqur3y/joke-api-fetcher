@@ -18,7 +18,7 @@ class staticvalues:
     URL_MISCELLANEOUS = "https://v2.jokeapi.dev/joke/Misc?safe-mode"
     URL_CHRISTMAS = "https://v2.jokeapi.dev/joke/Christmas?safe-mode"
     URL_ANY = "https://v2.jokeapi.dev/joke/Any?safe-mode"
-    @classproperty
+    @classmethod
     def URL_CUSTOM(cls, categories,type:bool):
         type_str = "twopart" if type == True else "single"
         if isinstance(categories, list):
@@ -41,7 +41,7 @@ Class that represents the interface for the low dependency
         """
 Gets a joke from JokeAPI
 """
-        url = staticmethod.URL_CUSTOM(self.categories,type)
+        url = staticvalues.URL_CUSTOM(self.categories,type)
         try:
             response = requests.get(url, timeout=5)
         except requests.exceptions.ConnectionError:
