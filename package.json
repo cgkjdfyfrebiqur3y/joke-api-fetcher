@@ -1,0 +1,14 @@
+{
+  "name": "joke-api-fetcher-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "testdriverai": "test",
+    "vitest": "^4.1.10"
+  }
+}
