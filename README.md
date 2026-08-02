@@ -5,7 +5,13 @@
 ![Python](https://img.shields.io/pypi/pyversions/joke-api-fetcher)
 
 A lightweight Python library that provides a local joke server API. Clients can request jokes through a simple interface while the server handles fetching from JokeAPI.
+## Features
 
+- ✅ Simple Python API
+- ✅ Authentication support
+- ✅ Timeout handling
+- ✅ Error handling
+- ✅ Tested with unittest
 
 
 # This project is new. If you use it, please try to break it and report anything strange.
