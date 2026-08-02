@@ -1,5 +1,7 @@
 # joke-api-fetcher
+<!--
 ![PyPI Uploads](https://github.com/cgkjdfyfrebiqur3y/joke-api-fetcher/actions/workflows/publish.yml/badge.svg)   
+-->   
 ![Tests](https://github.com/cgkjdfyfrebiqur3y/joke-api-fetcher/actions/workflows/unittest.yml/badge.svg)
 ![PyPI](https://img.shields.io/pypi/v/joke-api-fetcher)
 ![Python](https://img.shields.io/pypi/pyversions/joke-api-fetcher)
