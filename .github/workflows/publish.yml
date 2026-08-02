@@ -6,22 +6,30 @@ on:
       - "v*"
 
 jobs:
-  test:
-      name: Skip pre-release tags
-        steps:
-          -uses: actions/checkout@v4
-          run: |
-            TAG="${GITHUB_REF_NAME}"
-  
-            if [[ "$TAG" =~ (alpha|beta|rc)$ ]]; then
-              echo "Skipping pre-release tag: $TAG"
-              exit 0
-            fi
+  check-tag:
+    name: Check tag
+    runs-on: ubuntu-latest
 
-      
-  
+    outputs:
+      publish: ${{ steps.check.outputs.publish }}
+
+    steps:
+      - name: Check whether this is a pre-release
+        id: check
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+
+          if [[ "$TAG" =~ (alpha|beta|rc)$ ]]; then
+            echo "Skipping pre-release tag: $TAG"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     name: Build distribution 📦
+    needs: check-tag
+    if: needs.check-tag.outputs.publish == 'true'
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -31,7 +39,7 @@ jobs:
           - macos-14
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -41,28 +49,23 @@ jobs:
           python-version: "3.x"
 
       - name: Install pypa/build
-        run: >-
-          python3 -m
-          pip install
-          build
-          --user
+        run: python3 -m pip install --user build
 
-      - name: Build a binary wheel and a source tarball
+      - name: Build distribution
         run: python3 -m build
 
-      - name: Store the distribution packages
+      - name: Store distribution packages
         uses: actions/upload-artifact@v4
         with:
           name: python-package-distributions-${{ matrix.os }}
           path: dist/
 
-
   publish-to-pypi:
-    name: >-
-      Publish Python 🐍 distribution 📦 to PyPI
-    if: startsWith(github.ref, 'refs/tags/')
+    name: Publish Python 🐍 distribution 📦 to PyPI
     needs:
+      - check-tag
       - build
+    if: needs.check-tag.outputs.publish == 'true'
     runs-on: ubuntu-latest
 
     environment:
@@ -73,8 +76,8 @@ jobs:
       id-token: write
 
     steps:
-      - name: Download all the dists
-        uses: actions/download-artifact@v6
+      - name: Download all distributions
+        uses: actions/download-artifact@v5
         with:
           pattern: python-package-distributions-*
           path: dist/
