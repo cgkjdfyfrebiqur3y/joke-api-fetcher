@@ -1,1 +1,1 @@
-#this does not do anything,only for git purpose
+#this does not do anything,only for git purposes
